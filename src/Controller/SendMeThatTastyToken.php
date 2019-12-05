@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace Birdperson\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 
