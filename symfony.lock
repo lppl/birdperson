@@ -14,6 +14,9 @@
     "psr/log": {
         "version": "1.1.2"
     },
+    "symfony/browser-kit": {
+        "version": "v5.0.1"
+    },
     "symfony/cache": {
         "version": "v5.0.1"
     },
@@ -36,7 +39,13 @@
             "config/bootstrap.php"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v5.0.1"
+    },
     "symfony/dependency-injection": {
+        "version": "v5.0.1"
+    },
+    "symfony/dom-crawler": {
         "version": "v5.0.1"
     },
     "symfony/dotenv": {
@@ -99,6 +108,22 @@
     "symfony/mime": {
         "version": "v5.0.1"
     },
+    "symfony/phpunit-bridge": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "b0582341f1df39aaf3a9a866cdbe49937da35984"
+        },
+        "files": [
+            ".env.test",
+            "bin/phpunit",
+            "config/bootstrap.php",
+            "phpunit.xml.dist",
+            "tests/.gitignore"
+        ]
+    },
     "symfony/polyfill-intl-idn": {
         "version": "v1.13.1"
     },
@@ -124,6 +149,9 @@
     },
     "symfony/service-contracts": {
         "version": "v2.0.1"
+    },
+    "symfony/test-pack": {
+        "version": "v1.0.6"
     },
     "symfony/var-dumper": {
         "version": "v5.0.1"

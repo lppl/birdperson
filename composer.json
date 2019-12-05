@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.5",
+        "php": "7.4.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "symfony/console": "5.0.*",
@@ -12,6 +12,7 @@
         "symfony/yaml": "5.0.*"
     },
     "require-dev": {
+        "symfony/test-pack": "^1.0"
     },
     "config": {
         "preferred-install": {
