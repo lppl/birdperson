@@ -3,6 +3,7 @@
     "license": "proprietary",
     "require": {
         "php": "7.4.0",
+        "ext-json": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "symfony/console": "5.0.*",
