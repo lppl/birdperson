@@ -4,12 +4,15 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+
   Birdperson\:
     resource: '../src/*'
     exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-  Birdperson\Handler\SendMeThatTastyToken:
+
+  Birdperson\Infrastructure\Handler\:
+    resource: '../src/Infrastructure/Handler/*'
     tags: ['controller.service_arguments']
 
-  Birdperson\RayDonovanHandleOurErrorsInThisClass:
+  Birdperson\Infrastructure\RayDonovanHandleOurErrorsInThisClass:
     tags:
       - { name: kernel.event_listener, event: kernel.exception }

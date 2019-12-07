@@ -1,6 +1,6 @@
 <?php
 
-namespace Birdperson;
+namespace Birdperson\Infrastructure;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,6 +1,6 @@
 <?php
 
-use Birdperson\Kernel;
+use Birdperson\Infrastructure\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
