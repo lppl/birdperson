@@ -35,7 +35,7 @@ class DownloadFileTest extends WebTestCase
         $response = $client->getResponse();
 
         self::assertResponseHasTextFileContentType($response);
-        self::assertEquals($token, $response->getContent());
+        self::assertEquals("http://server-$server.dummy.server/file-$id-$server.txt", $response->getContent());
         self::assertEquals("file-$id-$server.txt", $response->headers->get('Content-Disposition'));
     }
 
@@ -60,6 +60,15 @@ class DownloadFileTest extends WebTestCase
         $response = $client->getResponse();
 
         self::assertResponseNotAuthorized($response);
+        self::assertResponseHasJSONContentType($response);
+        self::assertResponseIsEmptyJSON($response);
+    }
+
+    final public function testThatInvalidTokenWillFail(): void
+    {
+        $response = self::fetch('/invalid-token');
+
+        self::assertResponseAfterBadRequest($response);
         self::assertResponseHasJSONContentType($response);
         self::assertResponseIsEmptyJSON($response);
     }

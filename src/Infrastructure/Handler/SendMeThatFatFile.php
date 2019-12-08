@@ -2,7 +2,6 @@
 
 namespace Birdperson\Infrastructure\Handler;
 
-use Birdperson\Clock;
 use Birdperson\ResultForFile;
 use Birdperson\Tokenizer;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,15 +16,14 @@ class SendMeThatFatFile
         $this->tokenizer = $tokenizer;
     }
 
-    final public function __invoke(string $encoded, Clock $clock): Response
+    final public function __invoke(string $encoded): Response
     {
         $result = $this->tokenizer->read($encoded);
 
-
-        return $this->formatResponse($encoded, $result);
+        return $this->formatResponse($result);
     }
 
-    private function formatResponse(string $encoded, ResultForFile $result): Response
+    private function formatResponse(ResultForFile $result): Response
     {
         if ($result->hasError()) {
             switch ($result->error()) {
@@ -37,7 +35,7 @@ class SendMeThatFatFile
         }
 
         $url = $result->url();
-        $response = new Response($encoded);
+        $response = new Response($url);
         $response->headers->set('Content-Type', 'text/plain');
         $response->headers->set('Content-Disposition', basename($url));
 

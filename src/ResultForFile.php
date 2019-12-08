@@ -38,7 +38,7 @@ class ResultForFile
         return $this->hasError;
     }
 
-    final public function error(): bool
+    final public function error(): string
     {
         return $this->error;
     }

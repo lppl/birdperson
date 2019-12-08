@@ -53,11 +53,13 @@ class Tokenizer
 
     final public function read(string $encoded): ResultForFile
     {
-        [
-            'id' => $id,
-            'server' => $server,
-            'validTill' => $validTill
-        ] = json_decode($this->crypto->decode($encoded), true);
+        $data = json_decode($this->crypto->decode($encoded), true);
+
+        if (null === $data) {
+            return ResultForFile::withError(ResultForFile::INCORRECT_INPUT);
+        }
+
+        ['id' => $id, 'server' => $server, 'validTill' => $validTill] = $data;
 
         if ($this->clock->timeAfter($this->tokenLifetime) < $validTill) {
             return ResultForFile::withError(ResultForFile::TOKEN_EXPIRED);
@@ -68,7 +70,7 @@ class Tokenizer
 
     private function urlFor(array $data): string
     {
-        $encoded  = $this->crypto->encode(json_encode($data));
+        $encoded = $this->crypto->encode(json_encode($data));
         return sprintf($this->tokenUrl, $encoded);
     }
 }
