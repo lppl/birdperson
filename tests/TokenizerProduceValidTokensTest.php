@@ -4,12 +4,15 @@ namespace Birdperson\Tests;
 
 use Birdperson\Clock;
 use Birdperson\CyclicServerProvider;
+use Birdperson\Crypto;
 use Birdperson\Tokenizer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class TokenizerProduceGoodTokensTest extends TestCase
 {
+    const TOKENURL = 'https://host/app/%s';
+
     final public function incorrectParameters(): array
     {
         return [
@@ -29,7 +32,7 @@ class TokenizerProduceGoodTokensTest extends TestCase
     {
         $clock = new Clock($createdAt);
         $serverProvider = new CyclicServerProvider($clock, 3);
-        $tokenizer = new Tokenizer($clock, $tokenLifetime, $serverProvider);
+        $tokenizer = new Tokenizer($clock, $tokenLifetime, $serverProvider, self::TOKENURL, $this->crypto());
 
         $token = $tokenizer->generate($this->getExampleInput())->token();
 
@@ -54,11 +57,29 @@ class TokenizerProduceGoodTokensTest extends TestCase
     {
         $clock = new Clock($currentTime);
         $serverProvider = new CyclicServerProvider($clock, $serverCount);
-        $tokenizer = new Tokenizer($clock, 60, $serverProvider);
+        $tokenizer = new Tokenizer($clock, 60, $serverProvider, self::TOKENURL, $this->crypto());
 
         $token = $tokenizer->generate($this->getExampleInput())->token();
 
         $this->assertEquals($expectedServer, $token->server);
+    }
+
+    final public function testTokeninzerCanReadDataFromGeneratedUrl(): void
+    {
+        $clock = new Clock("2019-12-08 16:01:00");
+        $serverProvider = new CyclicServerProvider($clock, 3);
+        $tokenizer = new Tokenizer($clock, 60, $serverProvider, self::TOKENURL, $this->crypto());
+
+        $token = $tokenizer->generate($this->getExampleInput())->token();
+
+        $junk = explode('/', $token->url);
+        $encodedPart = $junk[count($junk) - 1];
+
+        $result = $tokenizer->read($encodedPart);
+
+        $this->assertEquals($token->server, $result['server'], "has same server");
+        $this->assertEquals($token->ip, $result['ip'], "has same ip");
+        $this->assertEquals($this->getExampleInput()->getInt('id'), $result['id'], "has same id");
     }
 
     private function getExampleInput(): ParameterBag
@@ -67,6 +88,11 @@ class TokenizerProduceGoodTokensTest extends TestCase
             'id' => 1134,
             'ip' => 'not-important-here'
         ]);
+    }
+
+    private function crypto(): Crypto
+    {
+        return new Crypto('my secret');
     }
 
 }

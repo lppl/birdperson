@@ -15,4 +15,9 @@ class Server
     {
         return $this->id;
     }
+
+    final public function getUrlForFile(int $getInt)
+    {
+        return sprintf("http://server-%d.dummy.server/file-%s", $this->id, $getInt);
+    }
 }

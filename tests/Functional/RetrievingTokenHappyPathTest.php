@@ -55,6 +55,13 @@ class RetrievingTokenHappyPathTest extends WebTestCase
         self::assertResponseContainField($response, 'validTill');
     }
 
+    final public function testTokenHaveFileUrl(): void
+    {
+        $response = self::fetch('/generator.php', ['id' => 1324]);
+
+        self::assertResponseContainValidUrlAtField($response, 'url');
+    }
+
     final protected function setUp(): void
     {
         Request::setTrustedProxies([], Request::HEADER_FORWARDED);

@@ -8,6 +8,8 @@ services:
       $tokenLifetime: 60
       $currentTime: ~
       $serverCount: 3
+      $tokenUrl: 'https://host/app/%s'
+      $secret: '%kernel.secret%'
 
   Birdperson\:
     resource: '../src/*'

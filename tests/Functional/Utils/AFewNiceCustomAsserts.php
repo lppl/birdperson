@@ -46,6 +46,16 @@ trait AFewNiceCustomAsserts
         );
     }
 
+    final public function assertResponseContainValidUrlAtField(Response $response, string $field): void
+    {
+        self::assertResponseContainField($response, $field);
+        $data = json_decode($response->getContent(), true);
+        self::assertTrue(
+            false !== filter_var($data[$field], FILTER_VALIDATE_URL),
+            sprintf('Response contain does not contain well formatted url at field "%s"', $field)
+        );
+    }
+
     final public function assertResponseContainField(Response $response, string $field): void
     {
         $data = json_decode($response->getContent(), true);
