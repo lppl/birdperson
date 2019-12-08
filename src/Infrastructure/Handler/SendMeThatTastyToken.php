@@ -11,9 +11,12 @@ class SendMeThatTastyToken
     final public function __invoke(Request $request): Response
     {
         $id = $request->query->getInt('id', 0);
+
         if ($id < 1) {
             return new JsonResponse([], Response::HTTP_BAD_REQUEST);
         }
-        return new JsonResponse();
+        return new JsonResponse([
+            'ip' => $request->getClientIp()
+        ]);
     }
 }

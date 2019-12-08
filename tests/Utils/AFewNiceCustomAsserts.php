@@ -34,4 +34,18 @@ trait AFewNiceCustomAsserts
     {
         self::assertEquals([], json_decode($response->getContent()));
     }
+
+    final public function assertResponseContain(Response $response, string $field, $expectedValue): void
+    {
+        $data = json_decode($response->getContent(), true);
+        if (!array_key_exists($field, $data)) {
+            self::fail(sprintf('Response do not contain field "%s"', $field));
+            return;
+        }
+        self::assertEquals(
+            $expectedValue,
+            $data[$field],
+            sprintf('Response contain incorrect value for field "%s"', $field)
+        );
+    }
 }
