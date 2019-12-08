@@ -4,10 +4,16 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+    bind:
+      $tokenLifetime: 60
+      $currentTime: ~
 
   Birdperson\:
     resource: '../src/*'
     exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+  Birdperson\Clock:
+    public: true
 
   Birdperson\Infrastructure\Handler\:
     resource: '../src/Infrastructure/Handler/*'

@@ -1,16 +1,14 @@
 <?php
 
-namespace Birdperson\Tests;
+namespace Birdperson\Tests\Functional;
 
-use Birdperson\Tests\Utils\AFewNiceCustomAsserts;
-use Birdperson\Tests\Utils\WebTestCaseShortcuts;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class RetrievingTokenHappyPathTest extends WebTestCase
 {
-    use AFewNiceCustomAsserts;
-    use WebTestCaseShortcuts;
+    use Utils\AFewNiceCustomAsserts;
+    use Utils\WebTestCaseShortcuts;
 
     const REAL_IP = "192.168.1.1";
     const TRUSTED_PROXY = "192.168.1.2";
@@ -47,6 +45,14 @@ class RetrievingTokenHappyPathTest extends WebTestCase
             'HTTP_X_FORWARDED_FOR' => self::REAL_IP
         ]);
         self::assertResponseContain($response, 'ip', self::UNTRUSTED_PROXY);
+    }
+
+    final public function testTokenHaveGenerationAndExpirationTime(): void
+    {
+        $response = self::fetch('/generator.php', ['id' => 1324]);
+
+        self::assertResponseContainField($response, 'createdAt');
+        self::assertResponseContainField($response, 'validTill');
     }
 
     final protected function setUp(): void

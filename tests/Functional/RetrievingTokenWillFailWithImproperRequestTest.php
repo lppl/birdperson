@@ -1,15 +1,13 @@
 <?php
 
-namespace Birdperson\Tests;
+namespace Birdperson\Tests\Functional;
 
-use Birdperson\Tests\Utils\AFewNiceCustomAsserts;
-use Birdperson\Tests\Utils\WebTestCaseShortcuts;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RetrievingTokenWillFailWithImproperRequestTest extends WebTestCase
 {
-    use AFewNiceCustomAsserts;
-    use WebTestCaseShortcuts;
+    use Utils\AFewNiceCustomAsserts;
+    use Utils\WebTestCaseShortcuts;
 
     final public function incorrectParameters(): array
     {

@@ -5,6 +5,7 @@ namespace Birdperson\Infrastructure\Handler;
 use Birdperson\Tokenizer;
 use Birdperson\TokenizerResult;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,12 +20,12 @@ class SendMeThatTastyToken
 
     final public function __invoke(Request $request): Response
     {
-        $inputData = [
+        $data = new ParameterBag([
             'ip' => $request->getClientIp(),
-            'id' => $request->query->getInt('id', 0)
-        ];
+            'id' => $request->get('id')
+        ]);
 
-        $result = $this->tokenizer->generate($inputData);
+        $result = $this->tokenizer->generate($data);
 
         return $this->formatResult($result);
     }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Birdperson\Tests\Utils;
+namespace Birdperson\Tests\Functional\Utils;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;

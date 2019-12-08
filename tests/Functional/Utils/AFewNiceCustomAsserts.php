@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Birdperson\Tests\Utils;
+namespace Birdperson\Tests\Functional\Utils;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,15 +37,18 @@ trait AFewNiceCustomAsserts
 
     final public function assertResponseContain(Response $response, string $field, $expectedValue): void
     {
+        self::assertResponseContainField($response, $field);
         $data = json_decode($response->getContent(), true);
-        if (!array_key_exists($field, $data)) {
-            self::fail(sprintf('Response do not contain field "%s"', $field));
-            return;
-        }
         self::assertEquals(
             $expectedValue,
             $data[$field],
             sprintf('Response contain incorrect value for field "%s"', $field)
         );
+    }
+
+    final public function assertResponseContainField(Response $response, string $field): void
+    {
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey($field, $data, sprintf('Response do not contain field "%s"', $field));
     }
 }
