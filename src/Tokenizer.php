@@ -56,7 +56,12 @@ class Tokenizer
         [
             'id' => $id,
             'server' => $server,
+            'validTill' => $validTill
         ] = json_decode($this->crypto->decode($encoded), true);
+
+        if ($this->clock->timeAfter($this->tokenLifetime) < $validTill) {
+            return ResultForFile::withError(ResultForFile::TOKEN_EXPIRED);
+        }
 
         return ResultForFile::withFile($this->serverProvider->getServer($server)->getUrlForFile($id));
     }

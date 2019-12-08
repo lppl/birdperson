@@ -5,6 +5,7 @@ namespace Birdperson;
 class ResultForFile
 {
     const INCORRECT_INPUT = 'incorrect_input';
+    const TOKEN_EXPIRED = 'token_expired';
 
     private bool $hasError;
     private string $error;

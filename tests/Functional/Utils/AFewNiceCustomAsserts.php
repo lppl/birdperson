@@ -25,6 +25,12 @@ trait AFewNiceCustomAsserts
         self::assertResponseHasJSONContentType($response);
     }
 
+    final static public function assertResponseNotAuthorized(Response $response): void
+    {
+        self::assertEquals(401, $response->getStatusCode());
+        self::assertResponseHasJSONContentType($response);
+    }
+
     public static function assertResponseHasJSONContentType(Response $response): void
     {
         self::assertEquals('application/json', $response->headers->get('Content-Type'));
