@@ -39,7 +39,7 @@ class SendMeThatFatFile
         $url = $result->url();
         $response = new Response($url);
         $response->headers->set('Content-Type', 'text/plain');
-        $response->headers->set('Content-Disposition', basename($url));
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', basename($url)));
 
         return $response;
     }

@@ -37,8 +37,9 @@ class DownloadFileTest extends WebTestCase
         self::assertResponseIsSuccessful();
         self::assertResponseHasTextFileContentType($response);
         self::assertEquals("http://server-$server.dummy.server/file-$id-$server.txt", $response->getContent());
-        self::assertEquals("file-$id-$server.txt", $response->headers->get('Content-Disposition'));
+        self::assertEquals("attachment; filename=\"file-$id-$server.txt\"", $response->headers->get('Content-Disposition'));
     }
+
 
     final public function expiredTokens(): array
     {
