@@ -17,4 +17,11 @@ class CyclicServerProvider implements ServerProvider
     {
         return new Server(abs($this->clock->currentTimeFormat('i')) % $this->serverCount);
     }
+
+    final public function getServer(int $id): Server
+    {
+        return new Server($id);
+    }
+
+
 }

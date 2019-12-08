@@ -2,13 +2,13 @@
 
 namespace Birdperson;
 
-class TokenizerResult
+class ResultForFile
 {
     const INCORRECT_INPUT = 'incorrect_input';
 
     private bool $hasError;
     private string $error;
-    private Token $token;
+    private string $url;
 
     private function __construct()
     {
@@ -19,16 +19,16 @@ class TokenizerResult
         $result = new self();
         $result->hasError = true;
         $result->error = $error;
-        $result->token = new Token();
+        $result->url = '';
         return $result;
     }
 
-    final public static function withToken(Token $token): self
+    final public static function withFile(string $url): self
     {
         $result = new self();
         $result->hasError = false;
         $result->error = '';
-        $result->token = $token;
+        $result->url = $url;
         return $result;
     }
 
@@ -42,8 +42,9 @@ class TokenizerResult
         return $this->error;
     }
 
-    final public function token(): Token
+    final public function url(): string
     {
-        return $this->token;
+        return $this->url;
     }
+
 }

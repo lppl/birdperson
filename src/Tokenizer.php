@@ -29,10 +29,10 @@ class Tokenizer
         $this->crypto = $crypto;
     }
 
-    final public function generate(ParameterBag $input): TokenizerResult
+    final public function generate(ParameterBag $input): ResultForToken
     {
         if ($input->getInt('id', 0) < 1) {
-            return TokenizerResult::withError(TokenizerResult::INCORRECT_INPUT);
+            return ResultForToken::withError(ResultForToken::INCORRECT_INPUT);
         }
 
         $token = new Token();
@@ -48,15 +48,20 @@ class Tokenizer
             'validTill' => $token->validTill,
         ]);
 
-        return TokenizerResult::withToken($token);
+        return ResultForToken::withToken($token);
     }
 
-    final public function read(string $encoded)
+    final public function read(string $encoded): ResultForFile
     {
-        return json_decode($this->crypto->decode($encoded), true);
+        [
+            'id' => $id,
+            'server' => $server,
+        ] = json_decode($this->crypto->decode($encoded), true);
+
+        return ResultForFile::withFile($this->serverProvider->getServer($server)->getUrlForFile($id));
     }
 
-    private function urlFor(array $data)
+    private function urlFor(array $data): string
     {
         $encoded  = $this->crypto->encode(json_encode($data));
         return sprintf($this->tokenUrl, $encoded);

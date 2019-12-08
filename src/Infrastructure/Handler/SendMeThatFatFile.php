@@ -15,14 +15,14 @@ class SendMeThatFatFile
         $this->tokenizer = $tokenizer;
     }
 
-    final public function __invoke(?string $encoded, ?string $currentTime, Clock $clock): Response
+    final public function __invoke(string $encoded, Clock $clock): Response
     {
-        $tokenParts = $this->tokenizer->read($encoded);
-        $id = $tokenParts['id'];
-        $server = $tokenParts['server'];
+        $result = $this->tokenizer->read($encoded);
+
+        $url = $result->url();
         $response = new Response($encoded);
         $response->headers->set('Content-Type', 'text/plain');
-        $response->headers->set('Content-Disposition', "file-$id-$server.txt");
+        $response->headers->set('Content-Disposition', basename($url));
 
         return $response;
     }

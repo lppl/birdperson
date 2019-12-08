@@ -16,8 +16,12 @@ class Server
         return $this->id;
     }
 
-    final public function getUrlForFile(int $getInt)
+    final public function getUrlForFile(int $file): string
     {
-        return sprintf("http://server-%d.dummy.server/file-%s", $this->id, $getInt);
+        return sprintf("http://server-%d.dummy.server/file-%s-%s.txt",
+            $this->id,
+            $file,
+            $this->id,
+        );
     }
 }

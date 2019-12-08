@@ -64,24 +64,6 @@ class TokenizerProduceGoodTokensTest extends TestCase
         $this->assertEquals($expectedServer, $token->server);
     }
 
-    final public function testTokeninzerCanReadDataFromGeneratedUrl(): void
-    {
-        $clock = new Clock("2019-12-08 16:01:00");
-        $serverProvider = new CyclicServerProvider($clock, 3);
-        $tokenizer = new Tokenizer($clock, 60, $serverProvider, self::TOKENURL, $this->crypto());
-
-        $token = $tokenizer->generate($this->getExampleInput())->token();
-
-        $junk = explode('/', $token->url);
-        $encodedPart = $junk[count($junk) - 1];
-
-        $result = $tokenizer->read($encodedPart);
-
-        $this->assertEquals($token->server, $result['server'], "has same server");
-        $this->assertEquals($token->ip, $result['ip'], "has same ip");
-        $this->assertEquals($this->getExampleInput()->getInt('id'), $result['id'], "has same id");
-    }
-
     private function getExampleInput(): ParameterBag
     {
         return new ParameterBag([

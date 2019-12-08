@@ -3,7 +3,7 @@
 namespace Birdperson\Infrastructure\Handler;
 
 use Birdperson\Tokenizer;
-use Birdperson\TokenizerResult;
+use Birdperson\ResultForToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,11 +30,11 @@ class SendMeThatTastyToken
         return $this->formatResult($result);
     }
 
-    private function formatResult(TokenizerResult $result): JsonResponse
+    private function formatResult(ResultForToken $result): JsonResponse
     {
         if ($result->hasError()) {
             switch ($result->error()) {
-                case TokenizerResult::INCORRECT_INPUT:
+                case ResultForToken::INCORRECT_INPUT:
                     return new JsonResponse([], Response::HTTP_BAD_REQUEST);
             }
         }
