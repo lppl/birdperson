@@ -28,12 +28,4 @@ class RetrievingTokenWillFailWithImproperRequestTest extends WebTestCase
         self::assertResponseHasJSONContentType($response);
         self::assertResponseIsEmptyJSON($response);
     }
-
-    final public function testThatThereIsNotFoundHandling(): void
-    {
-        $response = self::fetch('/not really a generator url');
-        self::assertResponseIsNotFound($response);
-        self::assertResponseHasJSONContentType($response);
-        self::assertResponseIsEmptyJSON($response);
-    }
 }

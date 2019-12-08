@@ -1,3 +1,6 @@
 index:
     path: /generator.php
     controller: Birdperson\Infrastructure\Handler\SendMeThatTastyToken::__invoke
+download:
+    path: /{encoded}
+    controller: Birdperson\Infrastructure\Handler\SendMeThatFatFile::__invoke

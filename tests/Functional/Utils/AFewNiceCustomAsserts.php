@@ -30,6 +30,11 @@ trait AFewNiceCustomAsserts
         self::assertEquals('application/json', $response->headers->get('Content-Type'));
     }
 
+    public static function assertResponseHasTextFileContentType(Response $response): void
+    {
+        self::assertEquals('text/plain; charset=UTF-8', $response->headers->get('Content-Type'));
+    }
+
     final public static function assertResponseIsEmptyJSON(Response $response): void
     {
         self::assertEquals([], json_decode($response->getContent()));
