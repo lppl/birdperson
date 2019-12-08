@@ -25,9 +25,14 @@ class Clock
         return $this->currentTime->format($format);
     }
 
-    final public function timeAfter(int $seconds): string
+    final public function timeAfter(int $seconds): self
     {
         $diff = DateInterval::createFromDateString(sprintf('%s seconds', $seconds));
-        return $this->currentTime->add($diff)->format(self::FORMAT);
+        return new self($this->currentTime->add($diff)->format(self::FORMAT));
+    }
+
+    public function __toString(): string
+    {
+        return $this->currentTime();
     }
 }
