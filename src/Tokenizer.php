@@ -51,7 +51,7 @@ class Tokenizer
         return ResultForToken::withToken($token);
     }
 
-    final public function read(string $encoded): ResultForFile
+    final public function read(string $encoded, string $userIp): ResultForFile
     {
         $data = json_decode($this->crypto->decode($encoded), true);
 
@@ -59,7 +59,11 @@ class Tokenizer
             return ResultForFile::withError(ResultForFile::INCORRECT_INPUT);
         }
 
-        ['id' => $id, 'server' => $server, 'validTill' => $validTill] = $data;
+        ['id' => $id, 'ip' => $ip, 'server' => $server, 'validTill' => $validTill] = $data;
+
+        if ($ip !== $userIp) {
+            return ResultForFile::withError(ResultForFile::WRONG_IP);
+        }
 
         if ($this->clock->timeAfter($this->tokenLifetime) < $validTill) {
             return ResultForFile::withError(ResultForFile::TOKEN_EXPIRED);

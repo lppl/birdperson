@@ -6,6 +6,7 @@ class ResultForFile
 {
     const INCORRECT_INPUT = 'incorrect_input';
     const TOKEN_EXPIRED = 'token_expired';
+    const WRONG_IP = 'wrong_ip';
 
     private bool $hasError;
     private string $error;

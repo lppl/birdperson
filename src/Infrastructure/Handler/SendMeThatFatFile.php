@@ -5,6 +5,7 @@ namespace Birdperson\Infrastructure\Handler;
 use Birdperson\ResultForFile;
 use Birdperson\Tokenizer;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SendMeThatFatFile
@@ -16,9 +17,9 @@ class SendMeThatFatFile
         $this->tokenizer = $tokenizer;
     }
 
-    final public function __invoke(string $encoded): Response
+    final public function __invoke(string $encoded, Request $request): Response
     {
-        $result = $this->tokenizer->read($encoded);
+        $result = $this->tokenizer->read($encoded, $request->getClientIp());
 
         return $this->formatResponse($result);
     }
@@ -28,6 +29,7 @@ class SendMeThatFatFile
         if ($result->hasError()) {
             switch ($result->error()) {
                 case ResultForFile::TOKEN_EXPIRED:
+                case ResultForFile::WRONG_IP:
                     return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
                 case ResultForFile::INCORRECT_INPUT:
                     return new JsonResponse([], Response::HTTP_BAD_REQUEST);
