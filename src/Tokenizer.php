@@ -8,11 +8,13 @@ class Tokenizer
 {
     private Clock $clock;
     private int $tokenLifetime;
+    private ServerProvider $serverProvider;
 
-    public function __construct(Clock $clock, int $tokenLifetime)
+    public function __construct(Clock $clock, int $tokenLifetime, ServerProvider $serverProvider)
     {
         $this->clock = $clock;
         $this->tokenLifetime = $tokenLifetime;
+        $this->serverProvider = $serverProvider;
     }
 
     final public function generate(ParameterBag $input): TokenizerResult
@@ -25,6 +27,7 @@ class Tokenizer
         $token->ip = $input->get('ip');
         $token->createdAt = $this->clock->currentTime();
         $token->validTill = $this->clock->timeAfter($this->tokenLifetime);
+        $token->server = $this->serverProvider->getBestPossibleServer()->id();
 
         return TokenizerResult::withToken($token);
     }

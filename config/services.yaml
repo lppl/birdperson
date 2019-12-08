@@ -7,6 +7,7 @@ services:
     bind:
       $tokenLifetime: 60
       $currentTime: ~
+      $serverCount: 3
 
   Birdperson\:
     resource: '../src/*'

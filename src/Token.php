@@ -7,4 +7,5 @@ class Token
     public string $ip = '';
     public string $createdAt;
     public string $validTill;
+    public int $server;
 }
